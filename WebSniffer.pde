@@ -7,12 +7,19 @@ import org.rsg.lib.Log;
 ArrayList<Node>nodes = new ArrayList<Node>(); 
 
 void setup() {
-  
+  fullScreen();
   
 }
 void draw() {
   
   
+  
+  for (int i = 0; i < nodes.size(); i++){
+    
+    if (!nodes.get(i).alive){
+      nodes.remove(i);
+    }
+  }
 }
 
 // Called each time a new packet arrives
