@@ -10,29 +10,27 @@ ArrayList<Connection> connections = new ArrayList<Connection>();
 CarnivoreP5 c;
 
 void setup() {
-  size(1000,600);
+  size(1000, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
 }
 void draw() {
   background(255);
-
-
   for (int i = 0; i < nodes.size(); i++) {
     Node node = nodes.get(i);
     node.draw();
-    if (!nodes.get(i).alive) {
+    if (!node.alive) {
       nodes.remove(i);
+      nodeHM.put(node.ip, null);
     }
   }
   for (int i = 0; i < connections.size(); i++) {
     Connection connect = connections.get(i);
     if (connect != null) {
       connect.draw();
-    }
-    if (!connect.alive) {
-      connections.remove(i);
-      println("removed");
+      if (!connect.alive) {
+        connections.remove(i);
+      }
     }
   }
 }
@@ -42,12 +40,13 @@ void draw() {
 synchronized void packetEvent(CarnivorePacket packet) {
   String reciver = packet.receiverAddress.ip.toString();
   String sender = packet.senderAddress.ip.toString();
-
+  //String port = packet.substring(packet.indexOf(" ")+1);
   Node r = nodeHM.get(reciver); //check to see if it is alreay in hashmap
-  Node s = nodeHM.get(sender);
+  Node s = nodeHM.get(sender); //
 
   if (r != null && r.radius < 100) {
     r.radius += 1;
+    r.t1 = millis();
   } else {
     nodes.add(new Node(reciver));
     nodeHM.put(reciver, nodes.get(nodes.size()-1));
@@ -55,6 +54,7 @@ synchronized void packetEvent(CarnivorePacket packet) {
   }
   if (s != null && s.radius < 100) {
     s.radius += 1;
+    s.t1 = millis();
   } else {
     nodes.add(new Node(sender)); 
     nodeHM.put(sender.toString(), nodes.get(nodes.size()-1));
