@@ -31,6 +31,7 @@ class Node {
     text(ip, pos.x, pos.y);
     if (millis()-t1 > 10000) {
       alive = false;
+      
     }
   }
 }

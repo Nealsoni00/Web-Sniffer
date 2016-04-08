@@ -61,7 +61,7 @@ synchronized void packetEvent(CarnivorePacket packet) {
   Node r = nodeHM.get(receiver); //check to see if it is alreay in hashmap
   Node s = nodeHM.get(sender); //
 
-  if (r != null) {
+  if (r != null && r.alive) {
     if (r.radius < 100) {
       r.radius += 1;
     } else {
@@ -73,7 +73,7 @@ synchronized void packetEvent(CarnivorePacket packet) {
     nodeHM.put(receiver, nodes.get(nodes.size()-1));
     r = nodes.get(nodes.size()-1);
   }
-  if (s != null) {
+  if (s != null && s.alive) {
     if (s.radius < 100) {
       s.radius += 1;
     } else {
