@@ -5,13 +5,18 @@ class Connection {
   int t1 = millis();
   float easing = 0.1;
   PVector pos;
-  Connection(Node from, Node to) {
+  int port;
+  Connection(Node from, Node to, int port) {
     fromNode = from;
     toNode = to;
     alive = true;
     pos = new PVector(fromNode.pos.x, fromNode.pos.y);
+    this.port = port;
   }
   void draw() {
+    switch (port) {
+      case: 80
+    }
     fill(0, 120, 255);
 
     //line(fromNode.pos.x, fromNode.pos.y, toNode.pos.x, toNode.pos.y);

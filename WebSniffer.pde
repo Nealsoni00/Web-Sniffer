@@ -13,6 +13,7 @@ void setup() {
   size(1000, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
+  //c.setVolumeLimit(50);
 }
 void draw() {
   background(255);
@@ -38,18 +39,19 @@ void draw() {
 
 // Called each time a new packet arrives
 synchronized void packetEvent(CarnivorePacket packet) {
-  String reciver = packet.receiverAddress.ip.toString();
+  int rPort = packet.receiverPort;
+  String receiver = packet.receiverAddress.ip.toString();
   String sender = packet.senderAddress.ip.toString();
   //String port = packet.substring(packet.indexOf(" ")+1);
-  Node r = nodeHM.get(reciver); //check to see if it is alreay in hashmap
+  Node r = nodeHM.get(receiver); //check to see if it is alreay in hashmap
   Node s = nodeHM.get(sender); //
 
   if (r != null && r.radius < 100) {
     r.radius += 1;
     r.t1 = millis();
   } else {
-    nodes.add(new Node(reciver));
-    nodeHM.put(reciver, nodes.get(nodes.size()-1));
+    nodes.add(new Node(receiver));
+    nodeHM.put(receiver, nodes.get(nodes.size()-1));
     r = nodes.get(nodes.size()-1);
   }
   if (s != null && s.radius < 100) {
@@ -60,6 +62,6 @@ synchronized void packetEvent(CarnivorePacket packet) {
     nodeHM.put(sender.toString(), nodes.get(nodes.size()-1));
     s = nodes.get(nodes.size()-1);
   }
-  connections.add(new Connection(r, s));
+  connections.add(new Connection(r, s, rPort));
   //println("[PDE] packetEvent: " + packet);
 }
