@@ -2,6 +2,9 @@ import java.util.Iterator;
 import org.rsg.carnivore.*;
 import org.rsg.carnivore.net.*;
 import org.rsg.lib.Log;
+import java.net.InetAddress;
+
+InetAddress inet;
 
 //Globals
 ArrayList<Node>nodes = new ArrayList<Node>(); 
@@ -13,7 +16,7 @@ void setup() {
   size(1000, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
-  c.setVolumeLimit(50);
+  c.setVolumeLimit(19);
 }
 void draw() {
   background(255);
@@ -36,6 +39,18 @@ void draw() {
   }
 }
 
+String myIP() {
+  try {
+    inet = InetAddress.getLocalHost();
+    println("my ip: " + inet.getHostAddress());
+    return inet.getHostAddress();
+  }
+  catch (Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+}
+
 
 // Called each time a new packet arrives
 synchronized void packetEvent(CarnivorePacket packet) {
@@ -46,16 +61,24 @@ synchronized void packetEvent(CarnivorePacket packet) {
   Node r = nodeHM.get(receiver); //check to see if it is alreay in hashmap
   Node s = nodeHM.get(sender); //
 
-  if (r != null && r.radius < 100) {
-    r.radius += 1;
+  if (r != null) {
+    if (r.radius < 100) {
+      r.radius += 1;
+    } else {
+      r.radius = 100;
+    }    
     r.t1 = millis();
   } else {
     nodes.add(new Node(receiver));
     nodeHM.put(receiver, nodes.get(nodes.size()-1));
     r = nodes.get(nodes.size()-1);
   }
-  if (s != null && s.radius < 100) {
-    s.radius += 1;
+  if (s != null) {
+    if (s.radius < 100) {
+      s.radius += 1;
+    } else {
+      s.radius = 100;
+    }
     s.t1 = millis();
   } else {
     nodes.add(new Node(sender)); 
