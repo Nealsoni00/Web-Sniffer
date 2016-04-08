@@ -20,6 +20,7 @@ class Node {
   }
   void draw() {
     fill(255);
+    stroke(0);
     ellipse(pos.x, pos.y, radius, radius);
     textSize(10);
     fill(0);

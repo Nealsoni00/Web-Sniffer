@@ -13,7 +13,7 @@ void setup() {
   size(1000, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
-  //c.setVolumeLimit(50);
+  c.setVolumeLimit(50);
 }
 void draw() {
   background(255);
