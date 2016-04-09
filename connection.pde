@@ -1,44 +1,47 @@
 class Connection {
+  //globals
   Node fromNode;
   Node toNode;
   boolean alive;
   int t1 = millis();
-  float easing = 0.1;
+  float easing = 0.1;//easing variables
   PVector pos;
-  int port;
+  int port; //port number for connection
   Connection(Node from, Node to, int port) {
     fromNode = from;
+    //fromNode.score ++;
+    //toNode.score ++;
     toNode = to;
     alive = true;
     pos = new PVector(fromNode.pos.x, fromNode.pos.y);
     this.port = port;
   }
   void draw() {
-
+    //get color and stroke from port number
     fill(portColor(port)[0]);
     color strokeColor = portColor(port)[0];
     stroke(red(strokeColor), green(strokeColor), blue(strokeColor), 30);
+    //draw cool line 
     line(fromNode.pos.x, fromNode.pos.y, pos.x, pos.y);
-    float targetX = toNode.pos.x;
-    float dx = targetX - pos.x;
-    pos.x += dx * easing;
-
-    float targetY = toNode.pos.y;
-    float dy = targetY - pos.y;
-    pos.y += dy * easing;
+    
+    //easing code for X and Y
+    pos.x += (toNode.pos.x - pos.x) * easing;
+    pos.y += (toNode.pos.y - pos.y) * easing;
+    
     stroke(portColor(port)[1]);
     ellipse(pos.x, pos.y, 10, 10);
-    if (abs(dist(pos.x, pos.y, toNode.pos.x, toNode.pos.y)) < 5 || (millis() - t1) > 5000) {
+    if (abs(dist(pos.x, pos.y, toNode.pos.x, toNode.pos.y)) < 5 || (millis() - t1) > 5000) { //kill if times out or in range of target
       alive = false;
     } else {
       alive = true;
     }
   }
 
-  color[] portColor(int port) {
+  color[] portColor(int port) { //different colors based on port number / type
     color s = color(125);
     color c = color(125);
     switch (port) {
+    case 20:
     case 21:
       c = color(153, 0, 204, 255); //ftp
       break;
@@ -81,6 +84,9 @@ class Connection {
     default:
       s = color(125);
       c = color(125);
+      if (port > 6880 && port < 6999){ //bit torrent
+         c = color(205,92,92);
+      }
       break;
     } 
     color[] colorArray = {c, s};
