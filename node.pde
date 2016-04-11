@@ -18,7 +18,7 @@ class Node {
   }
   void calculatePos() {//position based on IP adress
     pos = new PVector(random(0, width), random(0, height));
-    if (pos.x < 150 && pos.y < 150) {
+    while (pos.x < 220 && pos.y < 230) {
       pos.x = random(150, width);
       pos.y = random(150, height);
     }

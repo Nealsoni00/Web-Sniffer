@@ -3,22 +3,34 @@ import org.rsg.carnivore.*;
 import org.rsg.carnivore.net.*;
 import org.rsg.lib.Log;
 import java.net.InetAddress;
+import g4p_controls.*;
 
 InetAddress inet;
+CarnivoreP5 c;
+GCustomSlider slider, slider2;
 
 //Globals
 ArrayList<Node>nodes = new ArrayList<Node>(); 
 HashMap<String, Node> nodeHM = new HashMap<String, Node>();
 ArrayList<Connection> connections = new ArrayList<Connection>();
-CarnivoreP5 c;
-
 void setup() {
   size(1200, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
   // c.setVolumeLimit(19);
+  slider = new GCustomSlider(this, 10, 165, 200, 50, null);
+  // show          opaque  ticks value limits
+  slider.setShowDecor(false, true, true, true);
+  slider.setNbrTicks(5);
+  slider.setLimits(40, 0, 300);
+  slider2 = new GCustomSlider(this, 10, 210, 200, 50, null);
+  // show          opaque  ticks value limits
+  slider2.setShowDecor(false, true, true, true);
+  slider2.setNbrTicks(5);
+  slider2.setLimits(40, 0, 21);
 }
 void draw() {
+  c.setVolumeLimit(slider2.getValueI());
   background(255);  
   drawKey();
 
@@ -82,7 +94,9 @@ synchronized void packetEvent(CarnivorePacket packet) {
     s = nodes.get(nodes.size()-1); //the new node we just created
     nodeHM.put(sender.toString(), s); //add to hashmap for later use
   }
-  connections.add(new Connection(r, s, rPort)); //add to connections array to desplay on screen
+  if (connections.size() < slider.getValueI()) {
+    connections.add(new Connection(r, s, rPort)); //add to connections array to desplay on screen
+  }
   //println("[PDE] packetEvent: " + packet);
 }
 void drawKey() {
@@ -113,8 +127,11 @@ void drawKey() {
   text("port 137-139:        NetBios", x, y+size*9);
   fill(51, 51, 204, 255);  //itunes
   text("port 427:              itunes", x, y+size*10);
+  fill(255, 0, 102); //HSB
+  text("port 1900:              SSDP",x,y+size*11);
   fill(205, 92, 92);
-  text("port 6880-6999 or 49152-65534: BitTorrent", x, y+size*11);
+  
+  text("port 6880-6999 or 49152-65534: BitTorrent", x, y+size*12);
   fill(125);
-  text("Unknown" ,x,y+size*12);
+  text("Unknown", x, y+size*13);
 }

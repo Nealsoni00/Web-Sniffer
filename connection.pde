@@ -38,7 +38,7 @@ class Connection {
   }
 
   color[] portColor(int port) { //different colors based on port number / type
-    println(port);
+    //println(port);
     color s = color(125);
     color c = color(125);
     switch (port) {
@@ -81,8 +81,11 @@ class Connection {
       break;    
     case 427:
       c = color(51, 51, 204, 255);  //itunes
-      break;    
+      break;   
+    case 1900:
+      c = color(255, 0, 102); //HSB
     default:
+      println(port);
       s = color(125);
       c = color(125);
       if ((port > 6880 && port < 6999) || (port >= 49152 && port <= 65534)){ //bit torrent
