@@ -38,6 +38,7 @@ class Connection {
   }
 
   color[] portColor(int port) { //different colors based on port number / type
+    println(port);
     color s = color(125);
     color c = color(125);
     switch (port) {
@@ -84,7 +85,7 @@ class Connection {
     default:
       s = color(125);
       c = color(125);
-      if (port > 6880 && port < 6999){ //bit torrent
+      if ((port > 6880 && port < 6999) || (port >= 49152 && port <= 65534)){ //bit torrent
          c = color(205,92,92);
       }
       break;

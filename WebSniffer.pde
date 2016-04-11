@@ -16,10 +16,12 @@ void setup() {
   size(1200, 600);
   //fullScreen();
   c = new CarnivoreP5(this);
- // c.setVolumeLimit(19);
+  // c.setVolumeLimit(19);
 }
 void draw() {
-  background(255);
+  background(255);  
+  drawKey();
+
   for (int i = 0; i < nodes.size(); i++) {//desplay all nodes
     Node node = nodes.get(i);
     node.draw();       //draw all of them on screen
@@ -82,4 +84,37 @@ synchronized void packetEvent(CarnivorePacket packet) {
   }
   connections.add(new Connection(r, s, rPort)); //add to connections array to desplay on screen
   //println("[PDE] packetEvent: " + packet);
+}
+void drawKey() {
+  textAlign(CORNER);
+  int x = 10;
+  int y = 20;
+  int size = 12;
+  textSize(12);
+  fill(153, 0, 204, 255);
+  text("port 20 - 21:      FTP", x, y);
+  fill(255, 204, 0, 255);
+  text("port 22:              SSH", x, y+size);
+  fill(51, 102, 102, 255);//smtp
+  text("port 25:              SMTP (Email)", x, y+size*2);
+  fill(51, 102, 102, 255);
+  text("port 53 & 5353:      DNS ", x, y+size*3);
+  fill(255, 153, 0, 255);
+  text("port 68 - 69:         BOOTP ", x, y+size*4);
+  fill(102, 102, 255, 255);
+  text("port 40 & 80:         HTTP", x, y+size*5);
+  fill(102, 102, 255, 255);
+  text("port 443:              HTTPS  ", x, y+size*6);
+  fill(51, 102, 102, 255); 
+  text("port 110:              POP3", x, y+size*7);
+  fill(204, 255, 102, 255);  //network time protocol
+  text("port 123:              NTP", x, y+size*8);
+  fill(255, 102, 102, 255);  //netbios
+  text("port 137-139:        NetBios", x, y+size*9);
+  fill(51, 51, 204, 255);  //itunes
+  text("port 427:              itunes", x, y+size*10);
+  fill(205, 92, 92);
+  text("port 6880-6999 or 49152-65534: BitTorrent", x, y+size*11);
+  fill(125);
+  text("Unknown" ,x,y+size*12);
 }

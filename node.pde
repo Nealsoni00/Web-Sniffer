@@ -7,7 +7,7 @@ class Node {
   int radius;
   color c = color(255);
   //CarnivorePacket packet;
-  
+
   int score;
   Node(String ip) {
     this.alive = true;
@@ -18,8 +18,12 @@ class Node {
   }
   void calculatePos() {//position based on IP adress
     pos = new PVector(random(0, width), random(0, height));
+    if (pos.x < 150 && pos.y < 150) {
+      pos.x = random(150, width);
+      pos.y = random(150, height);
+    }
   }
-  void draw(){
+  void draw() {
     fill(c);
     stroke(0);
     if (myIP().equals(ip)) {//my ip change the color
